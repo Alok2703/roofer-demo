@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Go4Digital Framework v1 — Design Tokens
+   Source of truth: Design Bible §18. Components consume these
+   utilities; raw values in component code fail review.
+   ============================================================ */
+
+@theme {
+  /* ---- Color (Bible §2) — defaults wiped: the palette is closed ---- */
+  --color-*: initial;
+  --color-white: #ffffff;
+
+  --color-action: #0b5cd8;
+  --color-action-hover: #0a4db5;
+  --color-action-subtle: #ebf2fe;
+  --color-accent: #0b5cd8; /* per-trade override slot (Bible §2) */
+
+  --color-ink: #182230;
+  --color-text-secondary: #45556a;
+  --color-text-muted: #5d6b80;
+
+  --color-surface: #f7f9fb;
+  --color-muted: #eef2f6;
+  --color-border: #e3e8ef;
+  --color-border-strong: #8394a9;
+
+  --color-success: #1b7f4b;
+  --color-success-subtle: #e9f6ef;
+  --color-warning: #a15c07;
+  --color-warning-subtle: #fdf4e3;
+  --color-error: #b42318;
+  --color-error-subtle: #fbebe9;
+
+  /* ---- Spacing (Bible §4) — 4px base; sanctioned steps:
+     1(4) 2(8) 3(12) 4(16) 6(24) 8(32) 12(48) 16(64) 24(96) 32(128) ---- */
+  --spacing: 0.25rem;
+
+  /* ---- Radius (Bible §6) — defaults wiped: four values only ---- */
+  --radius-*: initial;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Shadow (Bible §7) — three elevations, ink-tinted ---- */
+  --shadow-*: initial;
+  --shadow-sm: 0 1px 2px rgb(24 34 48 / 0.06), 0 1px 3px rgb(24 34 48 / 0.08);
+  --shadow-md: 0 4px 12px rgb(24 34 48 / 0.1), 0 2px 4px rgb(24 34 48 / 0.06);
+  --shadow-lg: 0 12px 32px rgb(24 34 48 / 0.16), 0 4px 8px rgb(24 34 48 / 0.08);
+
+  /* ---- Motion (Bible §13) — one curve; 150/200/250ms; delay always 0 ---- */
+  --ease-brand: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---- Layout (Bible §5) — container 1140, text measure 720.
+     Breakpoints: md 768 (tablet), lg 1024 (desktop) = Tailwind defaults ---- */
+  --container-site: 1140px;
+  --container-content: 720px;
+}
+
+/* Fonts arrive as CSS variables from next/font (zero layout shift, self-hosted) */
+@theme inline {
+  --font-heading: var(--font-jakarta), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+}
+
+/* ---- Type scale (Bible §3) — fluid via clamp, two clean sizes per style ---- */
+@utility text-display {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 3.5rem); /* 36 → 56 */
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+@utility text-h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.875rem, 4vw, 2.5rem); /* 30 → 40 */
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+@utility text-h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.625rem, 3vw, 2rem); /* 26 → 32 */
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+@utility text-h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 2vw, 1.5rem); /* 20 → 24 */
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+@utility text-h4 {
+  font-family: var(--font-heading);
+  font-size: 1.125rem; /* 18 */
+  font-weight: 600;
+  line-height: 1.4;
+}
+@utility text-body-lg {
+  font-size: 1.125rem; /* 18 */
+  font-weight: 400;
+  line-height: 1.6;
+}
+@utility text-body {
+  font-size: 1rem; /* 16 — content minimum (Bible §3) */
+  font-weight: 400;
+  line-height: 1.6;
+}
+@utility text-small {
+  font-size: 0.875rem; /* 14 */
+  font-weight: 400;
+  line-height: 1.5;
+}
+@utility text-caption {
+  font-size: 0.75rem; /* 12 */
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@utility text-button {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+@utility text-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+/* Phone numbers and prices align as data (Bible §3) */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-ink);
+    background: var(--color-white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus visible from a metre away; never removed (Bible §15) */
+  :focus-visible {
+    outline: 2px solid var(--color-action);
+    outline-offset: 2px;
+  }
+
+  /* Reduced motion collapses ALL motion globally, not per component (Bible §13) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
